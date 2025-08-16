@@ -1,0 +1,14 @@
+FROM rockylinux:8
+
+RUN dnf -y install nano wget libaio unixODBC && dnf clean all
+RUN wget https://packages.clickhouse.com/rpm/stable/clickhouse-odbc-bridge-25.1.5.31.x86_64.rpm \
+ && wget https://download.oracle.com/otn_software/linux/instantclient/2380000/oracle-instantclient-basic-23.8.0.25.04-1.el8.x86_64.rpm \
+ && wget https://download.oracle.com/otn_software/linux/instantclient/oracle-instantclient-odbc-linuxx64.rpm \
+ && dnf -y install *.rpm \
+ && rm *.rpm
+
+ENV LD_LIBRARY_PATH=/usr/lib/oracle/23/client64/lib
+
+ENTRYPOINT ["/usr/bin/clickhouse-odbc-bridge", "--listen-host", "0.0.0.0", "--http-port", "9018"]
+
+EXPOSE 9018
