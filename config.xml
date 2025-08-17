@@ -894,7 +894,7 @@
     </jdbc_bridge>
     -->    
     <odbc_bridge>
-	<host>127.0.0.1</host>  
+	<host>172.23.0.12</host>  
         <port>9018</port>
         <timeout>3600</timeout>  
     </odbc_bridge>

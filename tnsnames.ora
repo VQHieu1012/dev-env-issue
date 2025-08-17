@@ -1,0 +1,15 @@
+XEPDB1 =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 172.23.0.13)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVICE_NAME = XEPDB1)
+    )
+  )
+
+XEPDB2 =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = oracle)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVICE_NAME = XEPDB1)
+    )
+  )

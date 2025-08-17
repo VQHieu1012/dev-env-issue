@@ -6,8 +6,11 @@ services:
     hostname: dashboard-app-0
     volumes:
       - ./users.xml:/etc/clickhouse-server/users.xml
-      - ./conf.d:/etc/clickhouse-server/conf.d
-    network_mode: host
+      - ./config.d:/etc/clickhouse-server/config.d
+      - ./config.xml:/etc/clickhouse-server/config.xml
+    networks:
+      clickhouse-network:
+        ipv4_address: 172.23.0.11
 
   odbc-bridge:
     build: .
@@ -16,14 +19,29 @@ services:
       - 9018:9018
     volumes:
       - ./odbc.ini:/etc/odbc.ini
+      - ./tnsnames.ora:/etc/tnsnames.ora
       # - ./odbcinst.ini:/etc/odbcinst.ini
+    networks:
+      clickhouse-network:
+        ipv4_address: 172.23.0.12
+
   oracle:
     image: gvenzl/oracle-xe:21-slim   # có thể chọn 18-slim hoặc 11-slim nếu cần
     container_name: oracle
     environment:
       - ORACLE_PASSWORD=Oracle123     # password for SYS, SYSTEM
-      - APP_USER=demo                 
+      - APP_USER=demo
       - APP_USER_PASSWORD=demo123
     ports:
       - "1521:1521"                   # Oracle listener
       - "5500:5500"                   # Enterprise Manager Express
+    networks:
+      clickhouse-network:
+        ipv4_address: 172.23.0.13
+
+networks:
+  clickhouse-network:
+    name: clickhouse-network
+    ipam:
+      config:
+        -   subnet: 172.23.0.0/24
