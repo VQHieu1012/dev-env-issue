@@ -46,7 +46,7 @@ docker compose exec clickhouse bash
 ```
 clickhouse-client
 
-select * from odbc("DSN=oracle_new", "demo", "sample");
+select * from odbc('DSN=oracle_new', 'demo', 'sample');
 ```
 
 #### More information
